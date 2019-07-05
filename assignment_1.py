@@ -2,6 +2,7 @@ import random
 import re
 import jieba
 import pandas as pd
+from collections import Counter
 
 simple_grammar = """
 sentence => noun_phrase verb_phrase
@@ -76,18 +77,51 @@ def generate_n(n_sentence):
         print(generate(gram = create_grammar(waitress, split = '='), target = 'waitress'))
 
 
-#part 2 
-#load file and clean the file
+#part 2
+
+#use re
+def token(string):
+    return re.findall('\w+', string)
+
+
+#load file and clean the file, return all text
 def load_and_clean(file_name):
-    data = pd.read_csv(file_name, sep='\t')
-    print(data.head())
+    
+    #must add parameter header
+    data = pd.read_csv(file_name, sep='\t',header=None)
+    articles = data[0].tolist()
+    #print(len(articles)) #len = 12889
+    clean_text = []
 
+    for line in articles:
+        #split by special symbol
+        split_by_str = line.strip().split('++$++')
+        
+        #remove token line '?' in a string
+        remove_symbol = token(split_by_str[2])
+        clean_text.append(remove_symbol)
+    
+    #concatenate all str in a 2-d-list into one long str
+    one_d_str =[]
+    for i in range(12889):
+        one_d_str.append(clean_text[i][0])
+    join_text = ''.join(one_d_str)
+    
+    join_text_file = open("join_text.txt", "w")
+    join_text_file.write(join_text)
+    join_text_file.close()
+    return join_text
+        
+def cut(string):
+    
+    join_text = string
+    with_jieba_cut = Counter(jieba.cut(join_text))
+    
+    #print(with_jieba_cut.most_common()[:10])
+    return with_jieba_cut.most_common()[:20]
+     
 
-
-
-
-
-
+  
 
 
 
@@ -98,10 +132,12 @@ def main():
     #ex_grammar = create_grammar(waitress, split = '=')
     #print(ex_grammar)
     
-    #generate_n(10)
+    generate_n(10)
 
     file_name = '/home/carson/Desktop/开课吧－nlp/AI-and-NLP-course/train.txt'
-    load_and_clean(file_name)
+    join_text = load_and_clean(file_name)
+    jieba_cut_summary = cut(join_text)
+    print(jieba_cut_summary)
 
 
 main()
