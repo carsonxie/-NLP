@@ -1,5 +1,7 @@
 import random
-
+import re
+import jieba
+import pandas as pd
 
 simple_grammar = """
 sentence => noun_phrase verb_phrase
@@ -15,34 +17,6 @@ Adj =>  蓝色的 | 好看的 | 小小的
 adj_grammar = """
 Adj* => null | Adj Adj*
 Adj => 蓝色的 | 好看的 | 小小的
-"""
-
-#在西部世界里，一个”人类“的语言可以定义为：
-
-human = """
-human = 自己 寻找 活动
-自己 = 我 | 俺 | 我们 
-寻找 = 找找 | 想找点 
-活动 = 乐子 | 玩的
-"""
-
-
-#一个“接待员”的语言可以定义为
-
-host = """
-host = 寒暄　报数 询问 业务相关 结尾 
-报数 = 我是 数字 号 ,
-数字 = 单个数字 | 数字 单个数字 
-单个数字 = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 
-寒暄 = 称谓 打招呼 | 打招呼
-称谓 = 人称 ,
-人称 = 先生 | 女士 | 小朋友
-打招呼 = 你好 | 您好 
-询问 = 请问你要 | 您需要
-业务相关 = 玩玩 具体业务
-玩玩 = null
-具体业务 = 喝酒 | 打牌 | 打猎 | 赌博
-结尾 = 吗？
 """
 
 #my first grammar
@@ -102,6 +76,20 @@ def generate_n(n_sentence):
         print(generate(gram = create_grammar(waitress, split = '='), target = 'waitress'))
 
 
+#part 2 
+#load file and clean the file
+def load_and_clean(file_name):
+    data = pd.read_csv(file_name, sep='\t')
+    print(data.head())
+
+
+
+
+
+
+
+
+
 
 def main():
     
@@ -109,8 +97,11 @@ def main():
     #print(create_grammar(adj_grammar))
     #ex_grammar = create_grammar(waitress, split = '=')
     #print(ex_grammar)
-    #print(generate(gram = ex_grammar, target = 'sentence'))
-    generate_n(10)
+    
+    #generate_n(10)
+
+    file_name = '/home/carson/Desktop/开课吧－nlp/AI-and-NLP-course/train.txt'
+    load_and_clean(file_name)
 
 
 main()
