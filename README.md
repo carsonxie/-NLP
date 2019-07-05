@@ -3,4 +3,4 @@ Prongramming assignment form an AI & NLP online course offered by [kaikeba](http
 
 ## Assignment
 [assignment 1](https://github.com/carsonxie/AI-and-NLP-course/blob/master/assignment_1.ipynb)
-[solution]()
+[solution](https://github.com/carsonxie/AI-and-NLP-course/blob/master/assignment_1.py)
