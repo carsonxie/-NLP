@@ -119,9 +119,24 @@ def cut(string):
     
     #print(with_jieba_cut.most_common()[:10])
     return with_jieba_cut.most_common()[:20]
-     
 
-  
+
+
+     
+#1-gram model
+def prob_1(word):
+
+    token_list = []
+    for i, line in enumerate((open('join_text.txt'))):
+        if i % 100 == 0: print(i)
+        
+        if i > 10000: break    
+    token_list += cut(line)
+    #print(token_list)
+
+
+
+    return Counter(word) / len(token_list)
 
 
 
@@ -138,6 +153,8 @@ def main():
     join_text = load_and_clean(file_name)
     jieba_cut_summary = cut(join_text)
     print(jieba_cut_summary)
+    #print(prob_1('你'))
 
 
-main()
+if __name__ == "__main__":
+    main()
